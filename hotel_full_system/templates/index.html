@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Свободные номера</h5>
+                <h2 class="card-text">{{ free_rooms }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Занятые номера</h5>
+                <h2 class="card-text">{{ occupied_rooms }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Активные брони</h5>
+                <h2 class="card-text">{{ active_bookings }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Всего номеров</h5>
+                <h2 class="card-text">{{ free_rooms + occupied_rooms }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5>Поиск свободных номеров</h5>
+            </div>
+            <div class="card-body">
+                <form action="/search_rooms" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Дата заезда:</label>
+                        <input type="date" class="form-control" name="check_in" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Дата выезда:</label>
+                        <input type="date" class="form-control" name="check_out" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Тип номера:</label>
+                        <select class="form-select" name="room_type">
+                            <option value="">Любой</option>
+                            <option value="standard">Стандарт</option>
+                            <option value="luxury">Люкс</option>
+                            <option value="suite">Апартаменты</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Найти номера</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5>Ближайшие заезды</h5>
+            </div>
+            <div class="card-body">
+                {% if upcoming_checkins %}
+                    <div class="list-group">
+                        {% for checkin in upcoming_checkins %}
+                        <div class="list-group-item">
+                            <strong>{{ checkin[1] }}</strong><br>
+                            Номер: {{ checkin[2] }}<br>
+                            Заезд: {{ checkin[0] }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted">Нет предстоящих заездов</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2> База данных гостей</h2>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ФИО</th>
+                <th>Паспорт</th>
+                <th>Телефон</th>
+                <th>Email</th>
+                <th>Количество заездов</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for guest in guests %}
+            <tr>
+                <td>{{ guest[0] }}</td>
+                <td>{{ guest[1] }}</td>
+                <td>{{ guest[2] }}</td>
+                <td>{{ guest[3] }}</td>
+                <td>{{ guest[4] }}</td>
+                <td>{{ guest[5] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

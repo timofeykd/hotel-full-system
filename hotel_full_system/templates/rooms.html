@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2> Управление номерным фондом</h2>
+
+{% for floor_num, floor_rooms in floors.items() %}
+<h4> Этаж {{ floor_num }}</h4>
+<div class="row mb-4">
+    {% for room in floor_rooms %}
+    <div class="col-md-4 mb-3">
+        <div class="card 
+            {% if room[4] == 'free' %}room-free
+            {% elif room[4] == 'occupied' %}room-occupied
+            {% else %}room-booked{% endif %}">
+            <div class="card-body">
+                <h5 class="card-title">Номер {{ room[1] }}</h5>
+                <p class="card-text">
+                    Тип: {{ room[2] }}<br>
+                    Цена: {{ room[3] }} руб./ночь<br>
+                    Этаж: {{ room[5] }}<br>
+                    Статус: 
+                    {% if room[4] == 'free' %}
+                        <span class="badge bg-success">Свободен</span>
+                    {% elif room[4] == 'occupied' %}
+                        <span class="badge bg-danger">Занят</span>
+                    {% else %}
+                        <span class="badge bg-warning">Забронирован</span>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endfor %}
+{% endblock %}

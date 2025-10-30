@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2> Результаты поиска свободных номеров</h2>
+<p>Даты: {{ check_in }} - {{ check_out }}</p>
+
+{% if rooms %}
+<div class="row">
+    {% for room in rooms %}
+    <div class="col-md-4 mb-3">
+        <div class="card room-free">
+            <div class="card-body">
+                <h5 class="card-title">Номер {{ room[1] }}</h5>
+                <p class="card-text">
+                    Тип: {{ room[2] }}<br>
+                    Этаж: {{ room[5] }}<br>
+                    Цена: {{ room[3] }} руб./ночь
+                </p>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal{{ room[0] }}">
+                    Забронировать
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно бронирования -->
+    <div class="modal fade" id="bookingModal{{ room[0] }}" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Бронирование номера {{ room[1] }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="/create_booking" method="POST">
+                    <div class="modal-body">
+                        <input type="hidden" name="room_id" value="{{ room[0] }}">
+                        <input type="hidden" name="check_in" value="{{ check_in }}">
+                        <input type="hidden" name="check_out" value="{{ check_out }}">
+                        
+                        <div class="mb-3">
+                            <label class="form-label">ФИО гостя:</label>
+                            <input type="text" class="form-control" name="full_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Паспорт:</label>
+                            <input type="text" class="form-control" name="passport" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Телефон:</label>
+                            <input type="tel" class="form-control" name="phone">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email:</label>
+                            <input type="email" class="form-control" name="email">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Подтвердить бронь</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-warning">
+    На указанные даты свободных номеров не найдено.
+</div>
+{% endif %}
+{% endblock %}
