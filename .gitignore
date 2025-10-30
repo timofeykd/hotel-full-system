@@ -1,0 +1,12 @@
+# Базы данных
+*.db
+*.sqlite3
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Системные
+.DS_Store
+Thumbs.db
